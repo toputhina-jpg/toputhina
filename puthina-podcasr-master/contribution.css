@@ -1,0 +1,230 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #111827;
+    color: #f3f4f6;
+}
+
+.glass-card {
+    background: rgba(31, 41, 55, 0.5);
+    /* Slightly more opaque glass */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes blob {
+    0% {
+        transform: translate(0px, 0px) scale(1);
+    }
+
+    33% {
+        transform: translate(30px, -50px) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
+    }
+
+    100% {
+        transform: translate(0px, 0px) scale(1);
+    }
+}
+
+.animate-blob {
+    animation: blob 12s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+/* Header & Navigation Styles */
+.header {
+    background-color: rgba(17, 24, 39, 0.7);
+    /* bg-gray-900 with opacity */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 76px;
+}
+
+.nav-logo-link {
+    text-decoration: none;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.nav-logo .logo-image {
+    height: 50px;
+    width: auto;
+    border-radius: 50%;
+}
+
+.nav-logo .logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #f3f4f6;
+    font-family: 'Poppins', sans-serif;
+}
+
+.hamburger {
+    display: flex;
+    /* Always visible on mobile-first, hidden on desktop */
+    flex-direction: column;
+    justify-content: space-around;
+    width: 2rem;
+    height: 2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1011;
+}
+
+.hamburger span {
+    display: block;
+    width: 2rem;
+    height: 3px;
+    background: #f3f4f6;
+    border-radius: 10px;
+    transition: all 0.3s linear;
+    position: relative;
+    transform-origin: 1px;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg);
+}
+
+/* Desktop Navigation */
+@media (min-width: 768px) {
+    .nav-links {
+        display: flex;
+        align-items: center;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-links li {
+        margin-left: 2rem;
+    }
+
+    .nav-link {
+        text-decoration: none;
+        color: #d1d5db;
+        font-weight: 500;
+        transition: color 0.3s ease;
+        padding: 0.5rem 0;
+        position: relative;
+    }
+
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 2px;
+        background-color: #10B981;
+        transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+        width: 100%;
+    }
+
+    .nav-link:hover {
+        color: #ffffff;
+    }
+
+    .hamburger {
+        display: none;
+    }
+}
+
+/* Mobile Menu */
+@media (max-width: 767px) {
+    .nav-links {
+        display: flex;
+        position: fixed;
+        top: -100vh;
+        left: 0;
+        width: 100%;
+        height: auto;
+        background-color: rgba(25, 35, 53, 0.85);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        flex-direction: column;
+        align-items: center;
+        transition: top 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        z-index: 999;
+        padding: 1rem 0;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+    .nav-links.active {
+        top: 76px;
+    }
+
+    .nav-links li {
+        margin: 0.25rem 0;
+        width: 90%;
+        text-align: center;
+    }
+
+    .nav-link {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #e2e8f0;
+        padding: 0.75rem 0;
+        display: block;
+        border-radius: 8px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+    }
+}
+
+/* Thank you Modal */
+#thank-you-modal {
+    transition: opacity 0.3s ease-in-out;
+}
+
+#thank-you-modal .glass-card {
+    transition: transform 0.3s ease-in-out;
+}

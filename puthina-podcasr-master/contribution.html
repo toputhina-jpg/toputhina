@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Puthina.Podcast</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            color: #f3f4f6;
+        }
+        .glass-card {
+            background: rgba(31, 41, 55, 0.5); /* Slightly more opaque glass */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 12s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        /* Header & Navigation Styles */
+        .header {
+            background-color: rgba(17, 24, 39, 0.7); /* bg-gray-900 with opacity */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 76px;
+        }
+        .nav-logo-link { text-decoration: none; }
+        .nav-logo { display: flex; align-items: center; gap: 0.75rem; }
+        .nav-logo .logo-image { height: 50px; width: auto; border-radius: 50%; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: bold; color: #f3f4f6; font-family: 'Poppins', sans-serif; }
+        
+        .hamburger {
+            display: flex; /* Always visible on mobile-first, hidden on desktop */
+            flex-direction: column;
+            justify-content: space-around;
+            width: 2rem;
+            height: 2rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1011;
+        }
+        .hamburger span { display: block; width: 2rem; height: 3px; background: #f3f4f6; border-radius: 10px; transition: all 0.3s linear; position: relative; transform-origin: 1px; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg); }
+        
+        /* Desktop Navigation */
+        @media (min-width: 768px) {
+            .header {
+                 background-color: #ffffff;
+                 border-bottom: none;
+                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            }
+            .nav-logo .logo-text { color: #1a202c; }
+            .nav-links { display: flex; align-items: center; list-style: none; margin: 0; padding: 0; }
+            .nav-links li { margin-left: 2rem; }
+            .nav-link { text-decoration: none; color: #4a5568; font-weight: 500; transition: color 0.3s ease; padding: 0.5rem 0; position: relative; }
+            .nav-link::after { content: ''; position: absolute; left: 0; bottom: 0; width: 0; height: 2px; background-color: #047857; transition: width 0.3s ease; }
+            .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+            .nav-link:hover { color: #047857; }
+            .hamburger { display: none; }
+        }
+
+        /* Mobile Menu */
+        @media (max-width: 767px) {
+            .nav-links {
+                display: flex;
+                position: fixed;
+                top: -100vh;
+                left: 0;
+                width: 100%;
+                height: auto;
+                background-color: rgba(25, 35, 53, 0.85);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                flex-direction: column;
+                align-items: center;
+                transition: top 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                z-index: 999;
+                padding: 1rem 0;
+                border-bottom-left-radius: 20px;
+                border-bottom-right-radius: 20px;
+            }
+            .nav-links.active { top: 76px; }
+            .nav-links li { margin: 0.25rem 0; width: 90%; text-align: center; }
+            .nav-link { font-size: 1.1rem; font-weight: 500; color: #e2e8f0; padding: 0.75rem 0; display: block; border-radius: 8px; transition: background-color 0.3s ease, color 0.3s ease; }
+            .nav-link:hover, .nav-link.active { background-color: rgba(255, 255, 255, 0.1); color: #ffffff; }
+        }
+
+        /* Thank you Modal */
+        #thank-you-modal {
+            transition: opacity 0.3s ease-in-out;
+        }
+        #thank-you-modal .glass-card {
+            transition: transform 0.3s ease-in-out;
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+    
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="nav-container container">
+            <nav class="nav">
+                <a href="index.html" class="nav-logo-link">
+                    <div class="nav-logo">
+                        <img src="https://placehold.co/60x60/111827/FFFFFF?text=P" alt="Puthina.Podcast Logo" class="logo-image">
+                        <span class="logo-text">Puthina.Podcast</span>
+                    </div>
+                </a>
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html#home" class="nav-link">Home</a></li>
+                    <li><a href="index.html#episodes" class="nav-link">Episodes</a></li>
+                    <li><a href="index.html#about" class="nav-link">About</a></li>
+                    <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+        <!-- Background Blobs -->
+        <div class="absolute top-0 -left-1/4 w-[40rem] h-[40rem] bg-emerald-500/20 rounded-full filter blur-3xl opacity-50 animate-blob"></div>
+        <div class="absolute top-0 -right-1/4 w-[40rem] h-[40rem] bg-sky-500/20 rounded-full filter blur-3xl opacity-50 animate-blob" style="animation-delay: 2s;"></div>
+        <div class="absolute -bottom-8 left-1/4 w-[40rem] h-[40rem] bg-pink-500/20 rounded-full filter blur-3xl opacity-50 animate-blob" style="animation-delay: 4s;"></div>
+
+        <main class="w-full max-w-4xl mx-auto z-10 pt-20 md:pt-0">
+            <div class="glass-card rounded-2xl shadow-2xl p-6 md:p-8 flex flex-col md:flex-row gap-8 md:gap-12 items-center">
+                
+                <!-- Left Side: Payment Options -->
+                <div class="text-center md:text-left w-full md:w-1/2">
+                    <h1 class="text-3xl font-bold font-['Poppins'] mb-2 text-white">Support Our Show</h1>
+                    <p class="text-gray-300 mb-8">Your contribution helps us keep the conversations going.</p>
+                    
+                    <div class="mb-4">
+                        <label for="amount" class="block text-sm font-medium text-gray-300 mb-2 text-center md:text-left">Enter amount</label>
+                        <div class="flex items-center bg-gray-900/50 rounded-lg border border-gray-700">
+                            <span class="text-gray-400 pl-4">₹</span>
+                            <input type="number" id="amount" name="amount" class="w-full bg-transparent p-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded-lg" placeholder="Enter any amount" min="1">
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-2 mb-6">
+                        <button class="amount-btn flex-1 bg-gray-700/50 hover:bg-gray-600/50 text-white font-semibold py-2 px-4 rounded-lg transition-colors" data-amount="220">₹220</button>
+                        <button class="amount-btn flex-1 bg-gray-700/50 hover:bg-gray-600/50 text-white font-semibold py-2 px-4 rounded-lg transition-colors" data-amount="400">₹400</button>
+                        <button class="amount-btn flex-1 bg-gray-700/50 hover:bg-gray-600/50 text-white font-semibold py-2 px-4 rounded-lg transition-colors" data-amount="4400">₹4,400</button>
+                    </div>
+                    
+                    <a id="upi-link" href="#" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center space-x-2 transition-all duration-300 shadow-lg opacity-50 cursor-not-allowed">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Support Now</span>
+                    </a>
+
+                </div>
+
+                <!-- Right Side: QR Code -->
+                <div class="text-center w-full md:w-1/2 flex flex-col items-center justify-center">
+                    <p class="text-gray-400 mb-4">Or scan the QR code to pay</p>
+                    <div class="bg-white p-3 rounded-lg inline-block shadow-lg">
+                        <img src="image/qr_code.jpeg" alt="UPI QR Code" class="w-48 h-48 md:w-56 md:h-56">
+                    </div>
+                    <p class="text-gray-400 mt-4 text-sm font-mono tracking-wider">puthina.podcast@ptyes</p>
+                </div>
+                
+            </div>
+            <div class="text-center mt-8">
+                <a href="index.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-arrow-left mr-2"></i>Back to Home</a>
+            </div>
+        </main>
+    </div>
+
+    <!-- Thank You Modal -->
+    <div id="thank-you-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[1100] opacity-0 pointer-events-none">
+        <div class="glass-card rounded-2xl p-8 shadow-2xl text-center text-white max-w-sm w-full relative transform scale-95">
+            <button id="close-modal-btn" class="absolute top-2 right-4 text-3xl text-gray-300 hover:text-white">&times;</button>
+            <div class="mb-4 text-6xl text-green-400">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="text-2xl font-bold font-['Poppins'] mb-2">നന്ദി!</h2>
+            <p class="text-gray-300 mb-4">നിങ്ങളുടെ പിന്തുണയ്ക്ക് ഹൃദയം നിറഞ്ഞ നന്ദി!</p>
+            <p class="text-sm text-gray-400">
+                പെയ്മെന്റ് ഉറപ്പിക്കുന്നതിനായി, ദയവായി സ്ക്രീൻഷോട്ട് <a href="https://wa.me/919633986314" target="_blank" class="text-green-400 hover:underline">ഈ WhatsApp നമ്പറിലേക്ക്</a> അയച്ചു തരിക.
+            </p>
+        </div>
+    </div>
+
+
+    <script>
+        // Amount selection logic
+        const amountInput = document.getElementById('amount');
+        const upiLink = document.getElementById('upi-link');
+        const amountButtons = document.querySelectorAll('.amount-btn');
+        const baseUpiUrl = 'upi://pay?pa=puthina.podcast@ptyes&pn=Puthina.Podcast&cu=INR&tn=Contribution';
+
+        function updateUpiLink(amount) {
+            const finalAmount = parseFloat(amount);
+            if (finalAmount > 0 && !isNaN(finalAmount)) {
+                upiLink.href = `${baseUpiUrl}&am=${finalAmount.toFixed(2)}`;
+                upiLink.classList.remove('opacity-50', 'cursor-not-allowed');
+                upiLink.classList.add('transform', 'hover:scale-105');
+            } else {
+                upiLink.href = '#'; // Prevent clicking with no amount
+                upiLink.classList.add('opacity-50', 'cursor-not-allowed');
+                upiLink.classList.remove('transform', 'hover:scale-105');
+            }
+        }
+
+        amountButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const amount = button.dataset.amount;
+                amountInput.value = amount;
+                updateUpiLink(amount);
+            });
+        });
+
+        amountInput.addEventListener('input', () => {
+            updateUpiLink(amountInput.value);
+        });
+
+        // Mobile Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        const body = document.body;
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            body.classList.toggle('menu-open');
+        });
+
+        // Thank You Modal Logic
+        const thankYouModal = document.getElementById('thank-you-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const modalContent = thankYouModal.querySelector('.glass-card');
+
+        function showThankYouModal() {
+            thankYouModal.classList.remove('pointer-events-none');
+            thankYouModal.style.opacity = '1';
+            modalContent.style.transform = 'scale(1)';
+        }
+
+        function hideThankYouModal() {
+            thankYouModal.style.opacity = '0';
+            modalContent.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                thankYouModal.classList.add('pointer-events-none');
+            }, 300);
+        }
+
+        upiLink.addEventListener('click', (e) => {
+            if (upiLink.href.endsWith('#')) {
+                e.preventDefault();
+                amountInput.focus();
+                amountInput.placeholder = "Please enter an amount first";
+                return;
+            }
+            setTimeout(() => {
+                showThankYouModal();
+            }, 500); // Small delay
+        });
+
+        closeModalBtn.addEventListener('click', hideThankYouModal);
+        thankYouModal.addEventListener('click', (e) => {
+            if (e.target === thankYouModal) {
+                hideThankYouModal();
+            }
+        });
+    </script>
+</body>
+</html>

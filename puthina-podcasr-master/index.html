@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puthina.Podcast - Your Weekly Dose of Insightful Conversations</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ===== GLOBAL SETTINGS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --bg-primary: #111827;
+            --text-body: #d1d5db;
+            --text-heading: #e5e7eb;
+            --accent: #10B981;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-body);
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        /* ===== GLASSMORPHISM ===== */
+        .glass-card,
+        .glass-section {
+            background: rgba(31, 41, 55, 0.5);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
+
+        .glass-card {
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(31, 41, 55, 0.6);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.1);
+        }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, #111827 0%, #0f172a 100%);
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+        }
+
+        .blob-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(16, 185, 129, 0.3);
+            top: -100px;
+            left: -50px;
+            animation: cross-fade-1 8s ease-in-out infinite;
+        }
+
+        .blob-2 {
+            width: 500px;
+            height: 500px;
+            background: rgba(59, 130, 246, 0.2);
+            bottom: -100px;
+            right: -50px;
+            animation: cross-fade-2 10s ease-in-out infinite;
+        }
+
+        .blob-3 {
+            width: 350px;
+            height: 350px;
+            background: rgba(139, 92, 246, 0.2);
+            top: 50%;
+            right: 10%;
+            animation: cross-fade-1 12s ease-in-out infinite reverse;
+        }
+
+        @keyframes cross-fade-1 {
+            0%, 100% {
+                opacity: 0.3;
+                transform: translate(0, 0);
+            }
+            50% {
+                opacity: 0.6;
+                transform: translate(30px, -30px);
+            }
+        }
+
+        @keyframes cross-fade-2 {
+            0%, 100% {
+                opacity: 0.2;
+                transform: translate(0, 0);
+            }
+            50% {
+                opacity: 0.5;
+                transform: translate(-40px, 40px);
+            }
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            padding: 0.75rem 1rem;
+            transform: translateY(0);
+        }
+
+        header.scrolled {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            padding: 0.5rem 1rem;
+        }
+
+        header.hidden {
+            transform: translateY(-100%);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(229, 231, 235, 0.1);
+            border: 2px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1.25rem;
+            color: #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover .logo-icon {
+            background: rgba(229, 231, 235, 0.2);
+            border-color: #e5e7eb;
+            transform: rotate(10deg);
+        }
+
+        .nav-desktop {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .nav-desktop {
+                display: flex;
+            }
+        }
+
+        .nav-desktop a {
+            padding: 0.5rem 1rem;
+            color: #e5e7eb;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-desktop a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-desktop a:hover::after,
+        .nav-desktop a.active::after {
+            width: 80%;
+        }
+
+        .support-btn {
+            padding: 0.65rem 1.5rem;
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            color: #111827;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(229, 231, 235, 0.2);
+        }
+
+        .support-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(229, 231, 235, 0.4);
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(229, 231, 235, 0.1);
+            border: 2px solid #d1d5db;
+            border-radius: 0.5rem;
+            color: #e5e7eb;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            background: rgba(229, 231, 235, 0.2);
+            transform: scale(1.05);
+        }
+
+        @media (min-width: 1024px) {
+            .menu-btn {
+                display: none;
+            }
+        }
+
+        .nav-mobile {
+            position: fixed;
+            top: 60px;
+            right: -100%;
+            width: 100%;
+            max-width: 300px;
+            height: calc(100vh - 60px);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-left: 2px solid rgba(16, 185, 129, 0.3);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 40;
+            overflow-y: auto;
+        }
+
+        @media (min-width: 1024px) {
+            .nav-mobile {
+                display: none;
+            }
+        }
+
+        .nav-mobile.active {
+            right: 0;
+        }
+
+        .nav-mobile a {
+            padding: 1rem;
+            color: #e5e7eb;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-radius: 0.5rem;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .nav-mobile a:hover {
+            background: rgba(229, 231, 235, 0.15);
+            border-left-color: #d1d5db;
+            padding-left: 1.5rem;
+        }
+
+        .nav-mobile .support-btn-mobile {
+            margin-top: 1rem;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            color: #111827;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 35;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 0.5rem;
+            margin-top: 60px;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        }
+
+        @media (min-width: 640px) {
+            .hero-container {
+                padding: 1.5rem;
+            }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1.2fr 1fr;
+            }
+        }
+
+        .hero-text {
+            text-align: left;
+        }
+
+        @media (max-width: 1023px) {
+            .hero-text {
+                text-align: center;
+            }
+        }
+
+        .hero-logo-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .hero-logo-container {
+                display: flex;
+            }
+        }
+
+        .hero-title {
+            font-size: clamp(1.75rem, 6vw, 4rem);
+            font-weight: 800;
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #e5e7eb, #10B981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(0.95rem, 3.5vw, 1.25rem);
+            color: var(--text-body);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            padding: 0;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-subtitle {
+                padding: 0;
+            }
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        @media (min-width: 640px) {
+            .hero-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            min-width: fit-content;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #000;
+            width: 100%;
+        }
+
+        @media (min-width: 640px) {
+            .btn-primary {
+                width: auto;
+            }
+        }
+
+        .btn-primary:hover {
+            background-color: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            width: 100%;
+        }
+
+        @media (min-width: 640px) {
+            .btn-secondary {
+                width: auto;
+            }
+        }
+
+        .btn-secondary:hover {
+            background: rgba(16, 185, 129, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .hero-logo-img {
+            width: 280px;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.3s;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-logo-img:hover {
+            transform: scale(1.07) rotate(-2deg);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .hero-logo-img {
+                width: 240px;
+                height: 240px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-logo-img {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-logo-img {
+                width: 160px;
+                height: 160px;
+            }
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            position: relative;
+            z-index: 1;
+            margin: 3rem 0;
+            padding: 2rem 0.5rem;
+            width: 100%;
+        }
+
+        @media (min-width: 640px) {
+            .section {
+                padding: 2rem 1rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .section {
+                margin: 4rem 0;
+                padding: 4rem 2rem;
+            }
+        }
+
+        .section-title {
+            font-size: clamp(1.75rem, 5vw, 3rem);
+            font-weight: 700;
+            color: var(--text-heading);
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .section-title {
+                margin-bottom: 3rem;
+            }
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            margin: 0.75rem auto 0;
+            border-radius: 2px;
+        }
+
+        .container-max {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 0.5rem;
+            width: 100%;
+        }
+
+        @media (min-width: 640px) {
+            .container-max {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container-max {
+                padding: 0 2rem;
+            }
+        }
+
+        /* ===== EPISODE SECTION ===== */
+        .episode-desktop {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .episode-mobile {
+                display: none;
+            }
+
+            .episode-desktop {
+                display: block;
+            }
+        }
+
+        .episode-video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+
+        .episode-video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 1rem;
+        }
+
+        .episode-info {
+            margin-top: 2rem;
+        }
+
+        .episode-title {
+            font-size: clamp(1.25rem, 4vw, 1.5rem);
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            line-height: 1.3;
+        }
+
+        .episode-title:hover {
+            color: var(--accent);
+        }
+
+        .episode-description {
+            color: var(--text-body);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .episodes-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 0 0.25rem;
+        }
+
+        @media (min-width: 640px) {
+            .episodes-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+                padding: 0;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .episodes-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+        }
+
+        .episode-card {
+            overflow: hidden;
+        }
+
+        .episode-card-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .episode-card-content {
+            padding: 1.25rem;
+        }
+
+        .episode-card-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .episode-card-desc {
+            font-size: 0.875rem;
+            color: var(--text-body);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about-content {
+            padding: 1.5rem;
+            line-height: 1.8;
+            color: var(--text-body);
+        }
+
+        @media (min-width: 768px) {
+            .about-content {
+                padding: 3rem;
+            }
+        }
+
+        .about-content p {
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        @media (min-width: 768px) {
+            .about-content p {
+                font-size: 1rem;
+            }
+        }
+
+        /* ===== CONTACT FORM ===== */
+        .contact-form {
+            padding: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .contact-form {
+                padding: 2rem;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-heading);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            color: var(--text-body);
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(209, 213, 219, 0.5);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 0.875rem;
+            background-color: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-submit:hover {
+            background-color: #059669;
+            transform: translateY(-2px);
+        }
+
+        .form-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            display: none;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-message.success {
+            display: block;
+            background: rgba(16, 185, 129, 0.2);
+            color: #10B981;
+            border: 1px solid rgba(16, 185, 129, 0.5);
+        }
+
+        .form-message.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.5);
+        }
+
+        /* ===== SUPPORT SECTION ===== */
+        .support-card {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .support-card {
+                padding: 3rem;
+            }
+        }
+
+        .support-card p {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            color: var(--text-body);
+            font-size: 0.95rem;
+        }
+
+        @media (min-width: 768px) {
+            .support-card p {
+                font-size: 1rem;
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            position: relative;
+            z-index: 1;
+            background: rgba(17, 24, 39, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem 0.5rem;
+            margin-top: 3rem;
+            width: 100%;
+        }
+
+        @media (min-width: 640px) {
+            footer {
+                padding: 2rem 1rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            footer {
+                padding: 3rem 2rem 2rem;
+                margin-top: 4rem;
+            }
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr 1fr;
+                text-align: left;
+            }
+        }
+
+        .footer-section h3 {
+            color: var(--text-heading);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .footer-section a,
+        .footer-section p {
+            color: var(--text-body);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.2s ease;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        @media (min-width: 768px) {
+            .social-icons {
+                justify-content: flex-start;
+            }
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 50%;
+            color: var(--accent);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            background: var(--accent);
+            color: #000;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-body);
+            font-size: 0.8rem;
+        }
+
+        /* ===== RESPONSIVE HEADER ===== */
+        @media (max-width: 1023px) {
+            .header-container {
+                gap: 1rem;
+            }
+
+            .logo {
+                font-size: 1.25rem;
+            }
+
+            .logo-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            header {
+                padding: 0.5rem 0.75rem;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .logo-icon {
+                width: 30px;
+                height: 30px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="background-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Header -->
+    <header id="main-header">
+        <div class="header-container">
+            <a href="#home" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-podcast"></i>
+                </div>
+                <span>Puthina</span>
+            </a>
+
+            <nav class="nav-desktop">
+                <a href="#home" class="active">Home</a>
+                <a href="#latest-episode">Episodes</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </nav>
+
+            <button class="support-btn" onclick="window.location.href='#support'">Support Us</button>
+
+            <button id="menu-toggle" class="menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Overlay -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Mobile Navigation -->
+    <nav id="mobile-menu" class="nav-mobile">
+        <a href="#home" class="active">Home</a>
+        <a href="#latest-episode">Episodes</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <button class="support-btn-mobile" onclick="window.location.href='#support'">Support Us</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Puthina.Podcast</h1>
+                <p class="hero-subtitle">Your Weekly Dose of Insightful Conversations</p>
+                <div class="hero-buttons">
+                    <a href="#latest-episode" class="btn-primary">
+                        <i class="fas fa-play" style="margin-right: 0.5rem;"></i>
+                        <span>Watch Latest Episode</span>
+                    </a>
+                    <a href="#support" class="btn-secondary">
+                        <i class="fas fa-heart" style="margin-right: 0.5rem;"></i>
+                        <span>Support Us</span>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-logo-container">
+                <img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&h=400&fit=crop" alt="Podcast Logo" class="hero-logo-img" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Episode Section -->
+    <section id="latest-episode" class="section">
+        <div class="container-max">
+            <h2 class="section-title">Latest Episode</h2>
+
+            <div class="episode-desktop glass-section" style="padding: 1.5rem;">
+                <div class="episode-video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="episode-info">
+                    <h3 class="episode-title">The Future of Technology: AI, Innovation & Beyond</h3>
+                    <p class="episode-description">In this insightful episode, we dive deep into the world of artificial intelligence, explore cutting-edge innovations, and discuss what the future holds.</p>
+                </div>
+            </div>
+
+            <div class="episode-mobile">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="glass-card" style="display: block; overflow: hidden; text-decoration: none;">
+                    <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?w=500&h=300&fit=crop" alt="Latest Episode" style="width: 100%; height: 10rem; object-fit: cover;">
+                    <div style="padding: 1rem;">
+                        <h3 class="episode-title" style="font-size: 1rem; margin-bottom: 0.5rem;">The Future of Technology: AI, Innovation & Beyond</h3>
+                        <p class="episode-description" style="font-size: 0.875rem;">Exploring AI, innovation, and the future of tech</p>
+                        <button class="btn-primary" style="width: 100%; margin-top: 1rem; font-size: 0.875rem;">Watch Now</button>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container-max">
+            <h2 class="section-title">About Puthina.Podcast</h2>
+            <div class="about-content glass-section">
+                <p>Welcome to Puthina.Podcast, your gateway to extraordinary conversations and deep insights. We believe that the best ideas emerge when curious minds come together.</p>
+                <p>Every week, we bring you carefully curated episodes featuring industry leaders, innovators, artists, and changemakers from around the world.</p>
+                <p>Whether you're interested in technology, entrepreneurship, personal growth, or simply love a good conversation, Puthina.Podcast has something for you.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Previous Episodes Section -->
+    <section class="section">
+        <div class="container-max">
+            <h2 class="section-title">Previous Episodes</h2>
+            <div class="episodes-grid">
+                <div class="episode-card glass-card">
+                    <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=250&fit=crop" alt="Episode" class="episode-card-img">
+                    <div class="episode-card-content">
+                        <h3 class="episode-card-title">Building Scalable Startups</h3>
+                        <p class="episode-card-desc">Learn strategies for scaling your startup from zero to millions in revenue.</p>
+                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="btn-primary" style="font-size: 0.875rem;">Watch Episode</a>
+                    </div>
+                </div>
+
+                <div class="episode-card glass-card">
+                    <img src="https://images.unsplash.com/photo-1488330890152-c007185e24da?w=400&h=250&fit=crop" alt="Episode" class="episode-card-img">
+                    <div class="episode-card-content">
+                        <h3 class="episode-card-title">The Art of Creative Thinking</h3>
+                        <p class="episode-card-desc">Discover how the world's most creative minds approach problem-solving.</p>
+                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="btn-primary" style="font-size: 0.875rem;">Watch Episode</a>
+                    </div>
+                </div>
+
+                <div class="episode-card glass-card">
+                    <img src="https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?w=400&h=250&fit=crop" alt="Episode" class="episode-card-img">
+                    <div class="episode-card-content">
+                        <h3 class="episode-card-title">Mental Health & Wellness</h3>
+                        <p class="episode-card-desc">Conversations around building resilience and maintaining mental balance.</p>
+                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="btn-primary" style="font-size: 0.875rem;">Watch Episode</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container-max">
+            <h2 class="section-title">Get in Touch</h2>
+            <form action="https://formcarry.com/s/KOu7rXd98Dk" method="POST" id="contact-form" class="contact-form glass-card">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Your message here..." required></textarea>
+                </div>
+
+                <button type="submit" class="form-submit">Send Message</button>
+                <div id="form-message" class="form-message"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Support Section -->
+    <section id="support" class="section">
+        <div class="container-max">
+            <h2 class="section-title">Support Puthina.Podcast</h2>
+            <div class="support-card glass-section">
+                <p>Love what we do? Support Puthina.Podcast and help us create more meaningful content.</p>
+                <a href="#contact" class="btn-primary">
+                    <i class="fas fa-heart" style="margin-right: 0.5rem;"></i>
+                    <span>Become a Supporter</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Puthina.Podcast</h3>
+                <p>Insightful conversations, inspiring stories, and meaningful discussions.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#home">Home</a>
+                <a href="#latest-episode">Episodes</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="https://youtube.com" class="social-icon" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://spotify.com" class="social-icon" title="Spotify"><i class="fab fa-spotify"></i></a>
+                    <a href="https://twitter.com" class="social-icon" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2024 Puthina.Podcast. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // ===== MOBILE MENU TOGGLE =====
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const overlay = document.getElementById('overlay');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            menuToggle.innerHTML = mobileMenu.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close menu when clicking overlay
+        overlay.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                overlay.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // ===== HEADER SCROLL ANIMATION (HIDE/SHOW) =====
+        let lastScrollTop = 0;
+        const header = document.getElementById('main-header');
+        const scrollThreshold = 100;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+            // Add scrolled class for blur effect
+            if (currentScroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+
+            // Hide header when scrolling down, show when scrolling up
+            if (currentScroll > scrollThreshold) {
+                if (currentScroll > lastScrollTop) {
+                    // Scrolling down
+                    header.classList.add('hidden');
+                } else {
+                    // Scrolling up
+                    header.classList.remove('hidden');
+                }
+            }
+
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+        });
+
+        // ===== ACTIVE LINK TRACKING =====
+        const navLinks = document.querySelectorAll('.nav-desktop a, .nav-mobile a');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+
+        // ===== SMOOTH SCROLLING =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerHeight = header.offsetHeight;
+                    const targetPosition = target.offsetTop - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ===== CONTACT FORM SUBMISSION =====
+        const contactForm = document.getElementById('contact-form');
+        const formMessage = document.getElementById('form-message');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(contactForm);
+
+                try {
+                    const response = await fetch(contactForm.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        formMessage.textContent = '✓ Message sent successfully! We\'ll get back to you soon.';
+                        formMessage.classList.remove('error');
+                        formMessage.classList.add('success');
+                        contactForm.reset();
+
+                        setTimeout(() => {
+                            formMessage.classList.remove('success');
+                            formMessage.style.display = 'none';
+                        }, 5000);
+                    } else {
+                        throw new Error('Form submission failed');
+                    }
+                } catch (error) {
+                    formMessage.textContent = '✗ Error sending message. Please try again.';
+                    formMessage.classList.remove('success');
+                    formMessage.classList.add('error');
+                }
+            });
+        }
+
+        // ===== INTERSECTION OBSERVER FOR SCROLL ANIMATIONS =====
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
